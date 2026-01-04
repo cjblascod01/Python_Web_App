@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscripciones</title>
+    <link rel="stylesheet" href="./../../../static/styles.css">
+</head>
+<body>
+    <main>
+        <h1>{{ torneo.nombreTorneo }}</h1>
+        <!-- Bloque para mostrar mensajes flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <script>
+            setTimeout(() => {
+                const flashMessages = document.querySelector('.flash-messages');
+                if (flashMessages) {
+                    flashMessages.style.display = 'none';
+                }
+            }, 5000); // Oculta los mensajes después de 5 segundos
+        </script>
+    </main>
+    <div class="container">
+        <section>
+            <form action="/session/lista-de-inscripciones/inscripcion/{{ torneo.nombreTorneo }}" method="post">
+                {% for resultado in resultados %}
+                {% if resultado.participantes_totales < limite %}
+                <input type="radio" id="{{resultado.categoria}}" name="categoria" value="{{resultado.categoria}}">
+                <label for="{{resultado.categoria}}">{{resultado.categoria}} ({{resultado.participantes_totales}}/{{limite}})</label><br>
+                {% endif %}
+                {% endfor %}
+                <button type="submit">Inscribirse</button>
+            </form>
+        </section>
+       <footer>
+           <a href="/session/lista-de-inscripciones" class="link-back">Volver</a>
+       </footer>
+    </div>
+</body>
+</html>

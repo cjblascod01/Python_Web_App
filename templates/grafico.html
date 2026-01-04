@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puntuaciones - {{ nombre_torneo }}</title>
+    <link rel="stylesheet" href="./../../static/graficos-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Puntuaciones en "{{ nombre_torneo }}"</h1>
+    <!-- Bloque para mostrar mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flash-messages">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    <script>
+        setTimeout(() => {
+            const flashMessages = document.querySelector('.flash-messages');
+            if (flashMessages) {
+                flashMessages.style.display = 'none';
+            }
+        }, 5000); // Oculta los mensajes después de 5 segundos
+    </script>
+
+    <!-- Formulario para elegir categoría -->
+    <form method="POST">
+        <label for="categoria">Selecciona una categoría:</label>
+        <select name="categoria" id="categoria">
+            <option value="">-- Elige una categoría --</option>
+            {% for cat in categorias %}
+            <option value="{{ cat }}" {% if categoria_seleccionada == cat %}selected{% endif %}>{{ cat }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
+    {% if categoria_seleccionada %}
+    <h2>Categoría: {{ categoria_seleccionada }}</h2>
+    {% if participantes %}
+    <!-- Gráfico -->
+    <canvas id="grafico" width="800" height="200"></canvas>
+    <script>
+        const ctx = document.getElementById('grafico').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ participantes|map(attribute=0)|list|tojson }},
+                datasets: [{
+                    label: 'Puntuación',
+                    data: {{ participantes|map(attribute=1)|list|tojson }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true, // Mantén la proporción
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+    <!-- Tabla de puntuaciones -->
+    <form method="POST" action="/actualizar-puntuaciones/{{ nombre_torneo }}">
+    <table>
+        <thead>
+            <tr>
+                <th>Posición</th>
+                <th>Usuario</th>
+                <th>Puntuación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i, participante in enumerate(participantes) %}
+            <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ participante[0] }}</td>
+                <td>
+                    {% if user_admin and estado != 'Finalizado' %}
+                    <input type="number" name="{{ participante[0] }}" value="{{ participante[1] }}">
+                    {% else %}
+                    {{ participante[1] }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if user_admin %}
+    <button type="submit">Guardar Cambios</button>
+    {% endif %}
+    </form>
+    {% endif %}
+    {% endif %}
+    <a href="/session/lista-de-torneos/activos">Volver a torneos</a>
+</body>
+</html>

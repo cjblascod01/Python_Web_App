@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="UTF-8">
+        <title>Las Cavernas del Tiempo</title>
+        <link rel="stylesheet" href="./static/styles.css">
+    </head>
+    <body>
+        <div class="container" style="width: 400px;">
+            <h1>Las Cavernas del Tiempo</h1>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <ul class="flash-messages">
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+            <script>
+                setTimeout(() => {
+                    const flashMessages = document.querySelector('.flash-messages');
+                    if (flashMessages) {
+                        flashMessages.style.display = 'none';
+                    }
+                }, 5000); // Oculta los mensajes después de 5 segundos
+            </script>
+            <hr>
+            <section>
+                <div>
+                    <h3>Iniciar sesion</h3>
+                    <form action="/login" method="post">
+                      <div>
+                          <label for="identificador">Mail o nombre de usuario</label>
+                          <input type="text" name="identificador" id="identificador" placeholder="Mail o nombre de usuario"/>
+                      </div><br>
+                      <div>
+                          <label for="contrasena">Contraseña</label>
+                          <input type="password" name="contrasena" id="contrasena" placeholder="Contraseña" />
+                      </div>
+                      <button type="submit">Entrar</button>
+                    </form>
+                    <hr>
+                    <p align="center">¿No tienes cuenta? <a href="/registro" style="color:black">Registrate</a></p>
+                </div>
+            </section>
+        </div>
+    </body>
+</html>

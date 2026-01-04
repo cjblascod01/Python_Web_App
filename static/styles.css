@@ -1,0 +1,309 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+h1, h2 {
+    margin: 0;
+}
+
+a {
+    display: inline-block; /* Para comportarse como un botón */
+    text-decoration: none;
+    color: #ffffff;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+.link {
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* Header Styles */
+main {
+    text-align: center;
+    padding: 20px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    text-align: center;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Form Styles */
+form {
+    margin-bottom: 30px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+input{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 258px;
+    height: 36px
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Estilo para los label asociados a inputs de tipo radio */
+input[type="radio"] + label {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Cambiar color al pasar el mouse */
+input[type="radio"] + label:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ocultar los botones radio originales */
+input[type="radio"] {
+    display: none;
+}
+
+/* Estilo del botón radio personalizado */
+input[type="radio"] + label::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Cuando está seleccionado */
+input[type="radio"]:checked + label::before {
+    background-color: #007bff;
+    border-color: #007bff;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+/* Texto del botón seleccionado */
+input[type="radio"]:checked + label {
+    background-color: #e7f3ff;
+    border-color: #007bff;
+    color: #007bff;
+    font-weight: bold;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Card Styles */
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+
+    /* Ajustes de ancho automático */
+    flex: 1 1 calc(33.333% - 20px); /* Tres tarjetas por fila con espacio entre ellas */
+    max-width: 300px; /* Tamaño máximo de la tarjeta */
+    min-width: 250px; /* Tamaño mínimo de la tarjeta */
+    box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total */
+}
+.card h3 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+.card p {
+    margin: 5px 0;
+}
+
+/* Button Group */
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+a {
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+}
+
+a:hover {
+    opacity: 0.9;
+}
+
+a.edit {
+    background-color: #ffc107;
+    color: #333;
+}
+
+a.delete {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+a.finish {
+    border-style: solid;
+    border-color: #007bff;
+    color: #333;
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    margin-top: 20px;
+}
+
+footer .link-back {
+    font-weight: bold;
+}
+
+
+/* Flash Messages styles */
+.flash-messages {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.flash-messages li {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.flash-messages .success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.flash-messages .error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.flash-messages .warning {
+    background-color: #ffc107;
+    color: #155724;
+}
+
+/* Navegación */
+.navigation {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #007bff;
+    margin: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.navigation li {
+    margin: 0;
+}
+
+.navigation a {
+    display: block;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.navigation a:hover {
+    background-color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Estilo para el contenido del log */
+.content {
+    display: none;
+    margin-top: 10px;
+    max-height: 300px;  /* Altura máxima del contenido */
+    overflow-y: auto;   /* Scrollbar si el contenido excede la altura */
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ccc;  /* Separador entre el título y el contenido */
+
+    /* Alineación a la izquierda y formato de texto como en un archivo */
+    text-align: left;            /* Alinea el texto a la izquierda */
+    white-space: pre-wrap;       /* Respetar los saltos de línea y los espacios */
+    font-family: 'Courier New', Courier, monospace;  /* Tipo de fuente de estilo monoespaciado */
+    font-size: 14px;             /* Tamaño de fuente adecuado para texto */
+}
+
+/* Para cada párrafo dentro del contenido */
+.content p {
+    margin: 2px 0;  /* Reduce el espacio entre los párrafos */
+}

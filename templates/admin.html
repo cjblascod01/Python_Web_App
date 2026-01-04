@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal Administrador</title>
+    <link rel="stylesheet" href="./static/session-styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Bienvenido, <b>{{ usuario_loged.usuario }}</b></h1>
+    </header>
+    <main class="main-container">
+        <div class="card-container">
+            <div class="card">
+                <h2>Gestión de Usuarios</h2>
+                <a href="/listaUsuarios" class="button">Gestión de usuarios</a>
+            </div>
+            <div class="card">
+                <h2>Gestión de Torneos</h2>
+                <a href="/listaTorneos" class="button">Gestión de torneos</a>
+            </div>
+            <div class="card">
+                <h2>Gestión de Participantes</h2>
+                <a href="/listaParticipantes" class="button">Accede a la lista de participantes</a>
+            </div>
+            <div class="card">
+                <h2>Logs</h2>
+                <a href="/logs" class="button">Lectura de logs</a>
+            </div>
+            <div class="card">
+                <h2>Torneos</h2>
+                <a href="/session/lista-de-torneos/activos" class="button">Información sobre torneos activos y finalizados</a>
+            </div>
+            <div class="card">
+                <h2>Inscripciones</h2>
+                <a href="/session/lista-de-inscripciones" class="button">Gestiona tus inscripciones a torneos</a>
+            </div>
+        </div>
+        <div class="logout-container">
+            <a href="/logout" class="logout-button">Cerrar sesión</a>
+        </div>
+    </main>
+</body>
+</html>

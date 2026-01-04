@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Torneos</title>
+    <link rel="stylesheet" href="./static/styles.css">
+</head>
+<body>
+    <main>
+        <h1>Gestión de Torneos</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <script>
+            setTimeout(() => {
+                const flashMessages = document.querySelector('.flash-messages');
+                if (flashMessages) {
+                    flashMessages.style.display = 'none';
+                }
+            }, 5000); // Oculta los mensajes después de 5 segundos
+        </script>
+    </main>
+    <div class="container">
+        <section>
+            <h2>Crear Torneo</h2><br>
+            <form action="/listaTorneos/crear-torneo" method="post">
+                <!-- Formulario para crear torneo -->
+                <div class="form-group">
+                    <label for="nombreJuego">Nombre del juego</label>
+                    <input type="text" name="nombreJuego" id="nombreJuego" placeholder="Nombre del juego" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombreTorneo">Nombre del torneo</label>
+                    <input type="text" name="nombreTorneo" id="nombreTorneo" placeholder="Nombre del torneo" required>
+                </div>
+                <div class="form-group">
+                    <label for="fechaInicio">Inicio del evento</label>
+                    <input type="datetime-local" id="fechaInicio" name="fechaInicio" required>
+                </div>
+                <div class="form-group">
+                    <label for="fechaFin">Fin del evento</label>
+                    <input type="datetime-local" id="fechaFin" name="fechaFin" required>
+                </div>
+                <div class="form-group">
+                    <label for="inicioInscripcion">Apertura de inscripción</label>
+                    <input type="datetime-local" id="inicioInscripcion" name="inicioInscripcion" required>
+                </div>
+                <div class="form-group">
+                    <label for="cierreInscripcion">Cierre de inscripción</label>
+                    <input type="datetime-local" id="cierreInscripcion" name="cierreInscripcion" required>
+                </div>
+                <div class="form-group">
+                    <label for="limiteParticipantes">Límite de participantes</label>
+                    <input type="number" id="limiteParticipantes" name="limiteParticipantes" placeholder="Límite de participantes" required>
+                </div>
+                <button type="submit">Registrar Torneo</button>
+            </form>
+        </section>
+
+        {% if torneos_activos %}
+        <section>
+            <h2>Torneos Activos</h2>
+            <div class="card-container">
+                {% for torneo in torneos_activos %}
+                <div class="card">
+                    <h3>{{ torneo.nombreTorneo }}</h3>
+                    <p>
+                        <strong>Juego:</strong> {{ torneo.nombreJuego }}<br>
+                        <strong>Inicio:</strong> {{ torneo.fechaInicio }}<br>
+                        <strong>Fin:</strong> {{ torneo.fechaFin }}<br>
+                        <strong>Inscripción:</strong> {{ torneo.inicioInscripcion }} - {{ torneo.cierreInscripcion }}<br>
+                        <strong>Límite:</strong> {{ torneo.limiteParticipantes }}<br>
+                    </p>
+                    <div class="btn-group">
+                        <a href="/listaTorneos/editar-torneo/{{ torneo.id }}" class="edit">Editar</a>
+                        <a href="/listaTorneos/borrar-torneo/{{ torneo.id }}" class="delete">Borrar</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+        {% if torneos_inactivos %}
+        <section>
+            <h2>Torneos Inactivos</h2>
+            <div class="card-container">
+                {% for torneo in torneos_inactivos %}
+                <div class="card">
+                    <h3>{{ torneo.nombreTorneo }}</h3>
+                    <p>
+                        <strong>Juego:</strong> {{ torneo.nombreJuego }}<br>
+                        <strong>Inicio:</strong> {{ torneo.fechaInicio }}<br>
+                        <strong>Fin:</strong> {{ torneo.fechaFin }}<br>
+                        <strong>Inscripción:</strong> {{ torneo.inicioInscripcion }} - {{ torneo.cierreInscripcion }}<br>
+                        <strong>Límite:</strong> {{ torneo.limiteParticipantes }}<br>
+                    </p>
+                    <div class="btn-group">
+                        <a href="/listaTorneos/editar-torneo/{{ torneo.id }}" class="edit">Editar</a>
+                        <a href="/listaTorneos/borrar-torneo/{{ torneo.id }}" class="delete">Borrar</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+        {% if torneos_finalizados %}
+        <section>
+            <h2>Torneos Finalizados</h2>
+            <div class="card-container">
+                {% for torneo in torneos_finalizados %}
+                <div class="card">
+                    <h3>{{ torneo.nombreTorneo }}</h3>
+                    <p>
+                        <strong>Juego:</strong> {{ torneo.nombreJuego }}<br>
+                        <strong>Inicio:</strong> {{ torneo.fechaInicio }}<br>
+                        <strong>Fin:</strong> {{ torneo.fechaFin }}<br>
+                        {% if torneo.ganador %}
+                        <strong>Ganador:</strong> {{ torneo.ganador }}<br>
+                        {% endif %}
+                    </p>
+                    <div class="btn-group">
+                        <a href="/listaTorneos/editar-torneo/{{ torneo.id }}" class="edit">Editar</a>
+                        {% if not torneo.ganador %}
+                        <a href="/listaTorneos/{{ torneo.nombreTorneo }}/finalizar" class="finish" onclick="return confirm('¿Estás seguro de que deseas finalizar este torneo?')">Finalizar Torneo</a>
+                        {% endif %}
+                        <a href="/listaTorneos/borrar-torneo/{{ torneo.id }}" class="delete">Borrar</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+         <footer>
+            <a href="/session" class="link-back">Volver</a>
+         </footer>
+    </div>
+</body>
+</html>

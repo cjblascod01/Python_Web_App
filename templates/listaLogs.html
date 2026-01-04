@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+       <meta charset="UTF-8">
+       <title>Gestión de Logs</title>
+       <link rel="stylesheet" href="./static/styles.css">
+       <script>
+            function toggleContent(index) {
+                const content = document.getElementById(`content-${index}`);
+                // Si el contenido ya está visible, lo ocultamos
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    // Ocultamos todos los demás contenidos
+                    const allContents = document.querySelectorAll('.content');
+                    allContents.forEach(c => c.style.display = "none");
+
+                    // Mostramos el contenido correspondiente al hacer clic
+                    content.style.display = "block";
+                }
+            }
+       </script>
+       <style>
+            /* Estilo para el contenedor de las cards */
+            .card-container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            /* Card Styles */
+            .card {
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                background-color: #fff;
+
+                /* Ajustes de ancho automático */
+                width: 100%;
+                max-width: 1160px;
+                box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total */
+            }
+       </style>
+   </head>
+   <body>
+      <main>
+          <h1>Gestion de Logs</h1>
+      </main>
+      <div class="container">
+          <section>
+              <h2>Logs disponibles</h2><br>
+              <div class="card-container">
+                  {% for log in lista_de_logs %}
+                  <div class="card">
+                      <div class="menu-item">
+                          <p class="title" onclick="toggleContent({{ loop.index }})">{{ log }}</p>
+                          <div class="content" id="content-{{ loop.index }}" style="display: none">
+                              {% for linea in logs_contenido[log] %}
+                              <p>{{ linea }}</p>
+                              {% endfor %}
+                          </div>
+                      </div>
+                  </div>
+                  {% endfor %}
+            </div>
+          </section>
+          <footer>
+              <a href="/session" class="link-back">Volver</a>
+          </footer>
+      </div>
+    </body>
+</html>

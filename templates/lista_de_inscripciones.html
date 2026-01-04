@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Inscripciones</title>
+    <link rel="stylesheet" href="./../static/styles.css">
+</head>
+<body>
+    <main>
+        <h1>Lista de Inscripciones</h1>
+        <!-- Bloque para mostrar mensajes flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <script>
+            setTimeout(() => {
+                const flashMessages = document.querySelector('.flash-messages');
+                if (flashMessages) {
+                    flashMessages.style.display = 'none';
+                }
+            }, 5000); // Oculta los mensajes después de 5 segundos
+        </script>
+    </main>
+    <div class="container">
+        <section>
+            <!-- Formulario para filtrar torneos por juego -->
+            <form action="/session/lista-de-inscripciones" method="post">
+                <div>
+                    <label for="nombreTorneo">Filtrar por juego:</label>
+                    <select name="nombreJuego" id="nombreTorneo" class="form-control">
+                        <option value="">-- Todos los juegos --</option>
+                        {% for juego in lista_de_juegos %}
+                        <option value="{{ juego.nombreJuego }}">{{ juego.nombreJuego }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <button type="submit">Buscar Torneos</button>
+                </div>
+            </form>
+        </section>
+        <section>
+            <h2>Lista de torneos a los que estás inscrito:</h2>
+            <div class="card-container">
+                {% if torneos_inscritos %}
+                {% for torneo in torneos_inscritos%}
+                <div class="card">
+                    <h3>{{ torneo.nombreTorneo }}</h3>
+                    <p>
+                        <strong>Juego:</strong> {{ torneo.nombreJuego }}<br>
+                        <strong>Duración del torneo:</strong> {{ torneo.fechaInicio }} - {{ torneo.fechaFin }}<br>
+                        <strong>Estado:</strong>
+                        <span style="color: {{ 'green' if torneo.estado else 'red' }};">
+                            {{ 'Activo' if torneo.estado else 'Inactivo' }}
+                        </span><br>
+                        <strong>Plazo de inscripciones:</strong> {{ torneo.inicioInscripcion }} - {{ torneo.cierreInscripcion }}<br>
+                    </p>
+                    <a href="/session/lista-de-inscripciones/borrar-inscripcion/{{ torneo.nombreTorneo }}" class="delete">Borrar</a>
+                </div>
+                {% endfor %}
+                {% else %}
+                    <p>No estás inscrito en ningún torneo.</p>
+                {% endif %}
+            </div>
+        </section>
+        <section>
+            <h2>Lista de Inscripciones disponibles:</h2>
+            <div class="card-container">
+                <!-- Lista de torneos -->
+                {% if lista_de_torneos %}
+                {% for torneo in lista_de_torneos %}
+                <div class="card">
+                    <h3>{{ torneo.nombreTorneo }}</h3>
+                    <p>
+                        <strong>Juego:</strong> {{ torneo.nombreJuego }}<br>
+                        <strong>Duración del torneo:</strong> {{ torneo.fechaInicio }} - {{ torneo.fechaFin }}<br>
+                        <strong>Estado:</strong>
+                        <span style="color: {{ 'green' if torneo.estado else 'red' }};">
+                            {{ 'Activo' if torneo.estado else 'Inactivo' }}
+                        </span><br>
+                        <strong>Plazo de inscripciones:</strong> {{ torneo.inicioInscripcion }} - {{ torneo.cierreInscripcion }}<br>
+                        <strong>Limite de plazas:</strong> {{ torneo.limiteParticipantes }}
+                    </p>
+                    <a href="/session/lista-de-inscripciones/inscripcion/{{ torneo.nombreTorneo }}" class="edit">Inscribirse</a>
+
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No se encontraron torneos para el juego seleccionado.</p>
+                {% endif %}
+            </div>
+        </section>
+        <!-- Enlace para volver -->
+        <footer>
+            <a href="/session" class="link-back">Volver</a>
+        </footer>
+    </div>
+</body>
+</html>

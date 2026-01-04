@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Pagina Principal de Usuario</title>
+        <link rel="stylesheet" href="./static/session-styles.css">
+    </head>
+    <body>
+        <header class="header">
+            <h1>Bienvenido, <b>{{ usuario_loged.usuario }}</b></h1>
+        </header>
+        <main class="main-container">
+        <div class="card-container">
+            <div class="card">
+                <h2>Ajustes</h2>
+                <a href="/editar-usuario/{{usuario_loged.usuario}}" class="button">Ajustes de usuario</a>
+            </div>
+            <div class="card">
+                <h2>Torneos</h2>
+                <a href="/session/lista-de-torneos/activos" class="button">Lista de torneos</a>
+            </div>
+            <div class="card">
+                <h2>Inscripciones</h2>
+                <a href="/session/lista-de-inscripciones" class="button">Lista de inscripciones</a>
+            </div>
+        </div>
+        <div class="logout-container">
+            <a href="/logout" class="logout-button">Cerrar sesión</a>
+        </div>
+    </main>
+    </body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Torneos</title>
+    <link rel="stylesheet" href="./../../static/styles.css">
+</head>
+<body>
+    <main>
+        <h1>Gestión de Torneos</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <script>
+            setTimeout(() => {
+                const flashMessages = document.querySelector('.flash-messages');
+                if (flashMessages) {
+                    flashMessages.style.display = 'none';
+                }
+            }, 5000); // Oculta los mensajes después de 5 segundos
+        </script>
+    </main>
+    <div class="container">
+        <section>
+            <h2>Editar Torneo</h2><br>
+            <form action="/listaTorneos/editar-torneo/{{ torneo.id }}" method="post">
+                <div class="form-group">
+                    <label for="nombreJuego">Nombre del juego</label>
+                    <input type="text" name="nombreJuego" id="nombreJuego" placeholder="Nombre del juego">
+                </div>
+                <div class="form-group">
+                    <label for="nombreTorneo">Nombre del torneo</label>
+                    <input type="text" name="nombreTorneo" id="nombreTorneo" placeholder="Nombre del torneo">
+                </div>
+                <div class="form-group">
+                    <label for="fechaInicio">Inicio del evento</label>
+                    <input type="datetime-local" id="fechaInicio" name="fechaInicio">
+                </div>
+                <div class="form-group">
+                    <label for="fechaFin">Fin del evento</label>
+                    <input type="datetime-local" id="fechaFin" name="fechaFin">
+                </div>
+                <div class="form-group">
+                    <label for="inicioInscripcion">Apertura de inscripción</label>
+                    <input type="datetime-local" id="inicioInscripcion" name="inicioInscripcion">
+                </div>
+                <div class="form-group">
+                    <label for="cierreInscripcion">Cierre de inscripción</label>
+                    <input type="datetime-local" id="cierreInscripcion" name="cierreInscripcion">
+                </div>
+                <div class="form-group">
+                    <label for="limiteParticipantes">Límite de participantes</label>
+                    <input type="number" id="limiteParticipantes" name="limiteParticipantes" placeholder="Límite de participantes">
+                </div>
+                {% if torneo.ganador %}
+                <div class="form-group">
+                    <label for="ganador">Límite de participantes</label>
+                    <input type="text" id="ganador" name="ganador" placeholder="Ganador del torneo">
+                </div>
+                <strong>Ganador:</strong> {{ torneo.ganador }}<br>
+                {% endif %}
+                <button type="submit">Actualizar Torneo</button>
+            </form>
+        </section>
+        <section>
+            <div  class="card-container">
+                <div class="card">
+                    <h3>{{ torneo.nombreTorneo }}</h3>
+                    <p>
+                        <strong>Juego:</strong> {{ torneo.nombreJuego }}<br>
+                        <strong>Fecha Inicio:</strong> {{ torneo.fechaInicio }}<br>
+                        <strong>Fecha Fin:</strong> {{ torneo.fechaFin }}<br>
+                        <strong>Inicio Inscripción:</strong> {{ torneo.inicioInscripcion }}<br>
+                        <strong>Fin Inscripción:</strong> {{ torneo.cierreInscripcion }}<br>
+                        <strong>Límite Participantes:</strong> {{ torneo.limiteParticipantes }}<br>
+                        {% if torneo.ganador %}
+                        <strong>Ganador:</strong> {{ torneo.ganador }}<br>
+                        {% endif %}
+                        <strong>Estado:</strong>
+                        <span style="color: {{ 'green' if torneo.estado else 'red' }};">
+                            {{ 'Activo' if torneo.estado else 'Inactivo' }}
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </section>
+       <footer>
+           <a href="/listaTorneos" class="link-back">Volver</a>
+       </footer>
+    </div>
+</body>
+</html>

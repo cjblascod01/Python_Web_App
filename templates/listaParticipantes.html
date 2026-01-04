@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+   <head>
+      <meta charset="UTF-8">
+      <title>Gestión de Usuarios</title>
+      <link rel="stylesheet" href="./static/styles.css">
+   </head>
+   <body>
+      <main>
+         <h1>Gestión de Participantes</h1>
+         {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <script>
+            setTimeout(() => {
+                const flashMessages = document.querySelector('.flash-messages');
+                if (flashMessages) {
+                    flashMessages.style.display = 'none';
+                }
+            }, 5000); // Oculta los mensajes después de 5 segundos
+        </script>
+      </main>
+      <div class="container">
+         <section>
+            <h2>Crear Participante</h2><br>
+            <form action="/listaParticipantes/crear-participante" method="post">
+                     <div class="form-group">
+                        <label for="usuario">Participante</label>
+                        <select name="usuario" id="usuario" class="form-control">
+                           {% for usuario in lista_de_usuarios %}
+                           <option value="{{usuario.usuario}}">{{usuario.usuario}}</option>
+                           {% endfor %}
+                        </select>
+                     </div>
+                     <div class="form-group">
+                        <label for="nombreTorneo">Nombre del Torneo</label>
+                        <select name="nombreTorneo" id="nombreTorneo" class="form-control">
+                           {% for torneo in lista_de_torneos %}
+                           <option value="{{torneo.nombreTorneo}}">{{torneo.nombreTorneo}}</option>
+                           {% endfor %}
+                        </select>
+                     </div>
+                     <div class="form-group">
+                        <label for="categoria">Categoria</label>
+                        <select name="categoria" id="categoria" class="form-control">
+                           <option value="amateur">Amateur</option>
+                           <option value="normal">Normal</option>
+                           <option value="experto">Experto</option>
+                        </select>
+                     </div>
+                     <button type="submit">
+                        Crear
+                     </button>
+                  </form>
+         </section>
+         <section>
+            <h2>Lista de participantes existentes</h2>
+            <div class="card-container">
+               {% for participante in lista_de_participantes %}
+               <div class="card">
+                  <h3>{{ participante.usuario }}</h3>
+                  <p>
+                     <strong>Torneo:</strong>{{ participante.nombreTorneo }}<br>
+                     <strong>Categoria:</strong>{{ participante.categoria }}<br>
+                  </p>
+                  <a href="/listaParticipantes/borrar-participante/{{ participante.id }}" class="delete">Borrar</a>
+
+               </div>
+               {% endfor %}
+            </div>
+         </section>
+         <!-- Enlace para volver -->
+         <footer>
+            <a href="/session" class="link-back">Volver</a>
+        </footer>
+      </div>
+   </body>
+</html>
